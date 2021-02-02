@@ -57,7 +57,7 @@ func TestAddPrecertificate(t *testing.T) {
 		test.AssertNotError(t, err, "Couldn't get status for test cert")
 		test.Assert(
 			t,
-			bytes.Compare(certStatus.OCSPResponse, ocspResp) == 0,
+			bytes.Equal(certStatus.OCSPResponse, ocspResp),
 			fmt.Sprintf("OCSP responses don't match, expected: %x, got %x", certStatus.OCSPResponse, ocspResp),
 		)
 		test.Assert(
@@ -146,5 +146,5 @@ func TestAddPrecertificateKeyHash(t *testing.T) {
 	test.AssertEquals(t, keyHashes[0].CertSerial, serial)
 	test.AssertEquals(t, keyHashes[0].CertNotAfter, testCert.NotAfter)
 	spkiHash := sha256.Sum256(testCert.RawSubjectPublicKeyInfo)
-	test.Assert(t, bytes.Compare(keyHashes[0].KeyHash, spkiHash[:]) == 0, "spki hash mismatch")
+	test.Assert(t, bytes.Equal(keyHashes[0].KeyHash, spkiHash[:]), "spki hash mismatch")
 }

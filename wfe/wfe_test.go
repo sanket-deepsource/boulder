@@ -2143,7 +2143,7 @@ func TestIssuer(t *testing.T) {
 		Method: "GET",
 	})
 	test.AssertEquals(t, responseWriter.Code, http.StatusOK)
-	test.Assert(t, bytes.Compare(responseWriter.Body.Bytes(), wfe.IssuerCert.Raw) == 0, "Incorrect bytes returned")
+	test.Assert(t, bytes.Equal(responseWriter.Body.Bytes(), wfe.IssuerCert.Raw), "Incorrect bytes returned")
 }
 
 func TestGetCertificate(t *testing.T) {
@@ -2165,7 +2165,7 @@ func TestGetCertificate(t *testing.T) {
 	test.AssertEquals(t, responseWriter.Code, 200)
 	test.AssertEquals(t, responseWriter.Header().Get("Cache-Control"), "public, max-age=0, no-cache")
 	test.AssertEquals(t, responseWriter.Header().Get("Content-Type"), "application/pkix-cert")
-	test.Assert(t, bytes.Compare(responseWriter.Body.Bytes(), certBlock.Bytes) == 0, "Certificates don't match")
+	test.Assert(t, bytes.Equal(responseWriter.Body.Bytes(), certBlock.Bytes), "Certificates don't match")
 	test.AssertEquals(
 		t, responseWriter.Header().Get("Link"),
 		`<http://localhost/acme/issuer-cert>;rel="up"`)
